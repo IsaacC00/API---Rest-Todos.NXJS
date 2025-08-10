@@ -48,15 +48,37 @@ export async function POST(request: Request) {
         //? solo tomamos lo que queremos del request
         //? en este caso complete y description en caso de que se mande algo mas
         //? no lo tomamaos, ademas podemos utilizar yup.shape para moldear nuestro body
-        const {complete,description} = await postSchema.validate(await request.json());
+        const { complete, description } = await postSchema.validate(await request.json());
         //? creamos el todo
-        const todo = await prisma.todo.create({ data: {description,complete} })
+        const todo = await prisma.todo.create({ data: { description, complete } })
         return NextResponse.json(todo)
 
     } catch (error) {
 
         //? 400 bad request
-       return NextResponse.json(error, {status:400});
+        return NextResponse.json(error, { status: 400 });
+
+    }
+
+
+}
+
+export async function DELETE() {
+
+    //? si la eliminacion falla podemos manejarlo con un trycatch
+    const existData = await prisma.todo.count({where:{complete:true}})
+    if (existData === 0) {
+         return NextResponse.json('NO EXISTEN TODOS PARA ELIMINAR')
+    }
+    try {
+        //? creamos el todo
+        await prisma.todo.deleteMany({where:{complete:true}})
+        return NextResponse.json('TODOS ELIMINADOS')
+
+    } catch (error) {
+
+        //? 400 bad request
+        return NextResponse.json(error, { status: 400 });
 
     }
 

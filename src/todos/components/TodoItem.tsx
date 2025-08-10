@@ -6,25 +6,28 @@ import { IoCheckboxOutline, IoSquareOutline } from 'react-icons/io5'
 interface Props {
     todo: Todo
     // TODO: ACCIONES REST
+    toggleTodo: (id:string, complete:boolean)=>Promise<Todo|void>
 }
 
-export const TodoItem = ({ todo }: Props) => {
+export const TodoItem = ({ todo, toggleTodo }: Props) => {
 
     return (
         <div className={todo.complete ? styles.todoDone : styles.todoPending}>
             <div className='flex flex-col sm:flex-row justify-start items-center gap-4'>
 
-                <div className={`${todo.complete ? 'bg-blue-100':'bg-red-100'}flex p-2 rounded-md hover:bg-blue-100/50 `}>
+                <div 
+                onClick={() => toggleTodo(todo.id, !todo.complete)}
+                className={`${todo.complete ? 'bg-blue-200' : 'bg-red-200'} 
+                flex p-2 rounded-md hover:bg-opacity-60 `}>
                     {
-                        todo.complete ? 
-                        <IoCheckboxOutline size={30} /> :
-                        <IoSquareOutline size={30} /> 
-
+                        todo.complete ?
+                            <IoCheckboxOutline size={30} /> :
+                            <IoSquareOutline size={30} />
                     }
 
-                    <div className='text-center sm:text-left'>
-                        {todo.description}
-                    </div>
+                </div>
+                <div className='text-center sm:text-left'>
+                    {todo.description}
                 </div>
             </div>
         </div>

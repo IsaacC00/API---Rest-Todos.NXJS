@@ -1,2 +1,5 @@
 export {TodosGrid} from './components/TodosGrid'
+export {TodosGridServer} from './components/TodosGridServer'
 export {TodoItem} from './components/TodoItem'
+export {NewTodo} from './components/NewTodo'
+export {NewTodoServer} from './components/NewTodoServer'
