@@ -20,7 +20,7 @@ export default function DashboardLayout({
         {/* TODO: Fin del <TopMenu /> */}
 
         {/* TODO: Contenido en el Layout.tsx */}
-        <div className="px-6 bg-gray-300 h-screen pt-6">
+        <div className="px-6 bg-gray-300 min-h-screen pt-6">
           {children}
           {/* TODO: Fin del contenido en el Layout.tsx */}
         </div>

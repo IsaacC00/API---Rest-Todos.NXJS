@@ -1,10 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import imageLogo from '../../public/logo.png'
-import { SidebarItem } from './SidebarItem'
 import { IoCalculatorOutline, IoCheckboxOutline, IoListOutline } from 'react-icons/io5'
 import { CiLogout } from 'react-icons/ci'
+import { LiaCookieSolid } from 'react-icons/lia'
+import imageLogo from '../../public/logo.png'
+import { SidebarItem } from './SidebarItem'
+import { FaBagShopping } from 'react-icons/fa6'
 
 const menuItems = [
     {
@@ -21,6 +23,16 @@ const menuItems = [
         path: '/dashboard/server-todos',
         icon: <IoListOutline size={30}/>,
         title: 'Server Actions',
+    },
+    {
+        path: '/dashboard/cookies',
+        icon: <LiaCookieSolid size={30}/>,
+        title: 'Cookies',
+    },
+    {
+        path: '/dashboard/products',
+        icon: <FaBagShopping size={30}/>,
+        title: 'Productos',
     },
 ]
 

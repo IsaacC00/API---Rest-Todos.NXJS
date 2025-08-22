@@ -1,3 +1,10 @@
+//? permite que el manejo de cache sea dinamico 
+//? para que en caso de que cambie algo en DB 
+//? la pagina se recargue sola
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import prisma from "@/lib/prisma";
 import { NewTodoServer,TodosGridServer } from "@/todos";
 
