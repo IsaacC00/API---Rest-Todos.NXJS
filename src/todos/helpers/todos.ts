@@ -20,7 +20,8 @@ export const updateTodo = async(id:string,complete:boolean):Promise<Todo> => {
 }
 
 export const createTodo = async(description:string):Promise<Todo> => {
-  
+    
+    //? las cookies ya llevan la informacion del usuario 
     const body = {description}
     const todo = await fetch(`/api/todos/`,{
         method:'POST',

@@ -1,3 +1,4 @@
+import { getUserServerSession } from '@/app/auth/actions/auth-actions';
 import prisma from '@/lib/prisma'
 import { NextResponse } from 'next/server';
 import * as yup from 'yup';
@@ -41,6 +42,11 @@ const postSchema = yup.object({
 
 export async function POST(request: Request) {
 
+    const user = await getUserServerSession();
+    if (!user) {
+        return NextResponse.json('No autorizado', { status: 401 })
+    }
+
     //? si la creacion falla podemos manejarlo con un trycatch
     try {
         //? obtenemos la informacion para luega insertarla en nuestra base de datos
@@ -50,7 +56,7 @@ export async function POST(request: Request) {
         //? no lo tomamaos, ademas podemos utilizar yup.shape para moldear nuestro body
         const { complete, description } = await postSchema.validate(await request.json());
         //? creamos el todo
-        const todo = await prisma.todo.create({ data: { description, complete } })
+        const todo = await prisma.todo.create({ data: { description, complete, userId: user.id } })
         return NextResponse.json(todo)
 
     } catch (error) {
@@ -65,14 +71,19 @@ export async function POST(request: Request) {
 
 export async function DELETE() {
 
+    const user = await getUserServerSession();
+    if (!user) {
+        return NextResponse.json('No autorizado', { status: 401 })
+    }
+
     //? si la eliminacion falla podemos manejarlo con un trycatch
-    const existData = await prisma.todo.count({where:{complete:true}})
+    const existData = await prisma.todo.count({ where: { complete: true } })
     if (existData === 0) {
-         return NextResponse.json('NO EXISTEN TODOS PARA ELIMINAR')
+        return NextResponse.json('NO EXISTEN TODOS PARA ELIMINAR')
     }
     try {
         //? creamos el todo
-        await prisma.todo.deleteMany({where:{complete:true}})
+        await prisma.todo.deleteMany({ where: { complete: true, userId:user.id } })
         return NextResponse.json('TODOS ELIMINADOS')
 
     } catch (error) {

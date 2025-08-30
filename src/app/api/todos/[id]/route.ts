@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from 'next/server'
 import prisma from '@/lib/prisma'
 import * as yup from 'yup'
 import { Todo } from '@/generated/prisma'
+import { getUserServerSession } from '@/app/auth/actions/auth-actions'
 
 interface Segments {
     params: {
@@ -12,7 +13,18 @@ interface Segments {
 
 //? simplificamos las funciones para reutilizar codigo
 const getTodo = async (id: string): Promise<Todo | null> => {
+    
+    const user = await getUserServerSession();
+    if (!user) {
+        return null;
+    }
+
     const todo = await prisma.todo.findFirst({ where: { id } });
+
+    if (todo?.userId !== user.id) {
+        return null;
+    }
+
     return todo;
 }
 
@@ -40,7 +52,7 @@ const putSchema = yup.object({
 export async function PUT(request: Request, { params }: Segments) {
 
     const { id } = params;
-    
+
     const todo = await getTodo(id);
     //? no podemos retornar un NextResponse por la limitacions de Next.js v13
 

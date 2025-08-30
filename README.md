@@ -25,6 +25,9 @@ npx prisma generate
 
 6. Ejecutar el seed para [crear la base de datos](http://localhost:3000/api/seed)
 
+# Nota `Usuario por defecto` 
+    usuario: isaac@google.com
+    clave: 123456
 
 
 # Produccion
